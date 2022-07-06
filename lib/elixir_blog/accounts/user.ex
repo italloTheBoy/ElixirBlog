@@ -8,6 +8,8 @@ defmodule ElixirBlog.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
+    has_many :posts, ElixirBlog.Timeline.Post
+
     timestamps()
   end
 
