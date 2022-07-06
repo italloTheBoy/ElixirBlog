@@ -8,7 +8,7 @@ defmodule ElixirBlog.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
-    has_many :posts, ElixirBlog.Timeline.Post
+    has_many :posts, ElixirBlog.Timeline.Post, on_delete: :delete_all
 
     timestamps()
   end

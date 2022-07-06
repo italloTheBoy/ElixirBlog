@@ -16,6 +16,6 @@ defmodule ElixirBlog.Timeline.Post do
   def changeset(post, attrs) do
     post
     |> cast(attrs, [:text, :likes, :dislikes])
-    |> validate_required([:text, :likes, :dislikes])
+    |> validate_required([:text, :likes, :dislikes, :user])
   end
 end
