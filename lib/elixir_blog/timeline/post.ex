@@ -4,8 +4,8 @@ defmodule ElixirBlog.Timeline.Post do
 
   schema "posts" do
     field :dislikes, :integer, default: 0
-    field :likes,    :integer, default: 0
-    field :text,     :string
+    field :likes, :integer, default: 0
+    field :text, :string
 
     belongs_to :user, ElixirBlog.Accounts.User
 
@@ -16,6 +16,9 @@ defmodule ElixirBlog.Timeline.Post do
   def changeset(post, attrs) do
     post
     |> cast(attrs, [:text, :likes, :dislikes])
-    |> validate_required([:text, :likes, :dislikes, :user])
+    |> assoc_constraint(:user)
+    |> validate_required([:text])
+    |> validate_number(:likes, greater_than: -1)
+    |> validate_number(:dislikes, greater: -1)
   end
 end

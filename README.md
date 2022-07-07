@@ -24,6 +24,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - Get featured posts.
   - Increment likes.
   - Increment dislikes.
+  - Decrement likes.
+  - Decrement dislikes.
   - Delete post.
 
 
