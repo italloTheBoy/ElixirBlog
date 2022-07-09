@@ -1,8 +1,8 @@
 defmodule ElixirBlogWeb.Router do
   use ElixirBlogWeb, :router
-  
+
   import ElixirBlogWeb.UserAuth
-  
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -88,5 +88,11 @@ defmodule ElixirBlogWeb.Router do
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
+  end
+
+  scope "/", ElixirBlogWeb do
+    pipe_through [:browser]
+
+    resources "/posts", PostController
   end
 end
