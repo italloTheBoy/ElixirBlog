@@ -1,6 +1,12 @@
 <%= form_for @changeset, Routes.post_path(@conn, :create), fn f -> %>
   <fieldset>
-    <%= label f, :text, "Make your post" %>
+    <%= if text_err = @changeset.errors[:text] do %>
+      <div class="alert alert-danger">
+        <p><%= elem(text_err, 0) %></p>
+      </div>
+    <% end %>
+
+    <%= label f, :text, "O que você tem a dizer?" %>
     <%= textarea f, :text, [maxlength: 255, required: true, autofocus: true] %>
 
     <%= submit "Post" %>

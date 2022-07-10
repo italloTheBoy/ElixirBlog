@@ -23,7 +23,10 @@ defmodule ElixirBlogWeb.PostController do
         |> redirect(to: Routes.post_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        
+
+        conn
+        |> render("new.html", changeset: changeset)
     end
   end
 end

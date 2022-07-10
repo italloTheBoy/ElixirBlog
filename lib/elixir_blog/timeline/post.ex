@@ -16,10 +16,10 @@ defmodule ElixirBlog.Timeline.Post do
   def changeset(post, attrs \\ %{}) do
     post
     |> cast(attrs, [:text, :likes, :dislikes, :user_id])
-    |> validate_required([:text])
-    |> assoc_constraint(:user)
-    |> validate_length(:text, max: 255)
-    |> validate_number(:likes, greater_than: -1)
-    |> validate_number(:dislikes, greater_than: -1)
+    |> validate_required([:text], message: "Preencha o campo de texto.")
+    |> assoc_constraint(:user, message: "Login inválido")
+    |> validate_length(:text, max: 255, message: "Postagem muito longa.")
+    |> validate_number(:likes, greater_than: -1, message: "número invalido de likes")
+    |> validate_number(:dislikes, greater_than: -1, message: "número invalido de dislikes")
   end
 end
