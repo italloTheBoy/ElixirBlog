@@ -15,9 +15,9 @@ defmodule ElixirBlog.Timeline.Post do
   @doc false
   def changeset(post, attrs \\ %{}) do
     post
-    |> cast(attrs, [:text, :likes, :dislikes])
-    |> assoc_constraint(:user)
+    |> cast(attrs, [:text, :likes, :dislikes, :user_id])
     |> validate_required([:text])
+    |> assoc_constraint(:user)
     |> validate_length(:text, max: 255)
     |> validate_number(:likes, greater_than: -1)
     |> validate_number(:dislikes, greater_than: -1)

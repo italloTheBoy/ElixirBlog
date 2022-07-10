@@ -51,7 +51,7 @@ defmodule ElixirBlog.Timeline do
   """
   def create_post(attrs \\ %{}) do
     %Post{}
-    |> Post.changeset(%{user_id = to_number})
+    |> change_post(attrs)
     |> Repo.insert()
   end
 

@@ -9,14 +9,14 @@ defmodule ElixirBlogWeb.PostController do
 
   def new(conn, _params) do
     changeset = Post.changeset(%Post{})
-    IO.inspect(conn.assigns.current_user.id)
+    IO.inspect(conn.assigns.current_user)
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"post" => post_params}) do
-    IO.inspect(post_params)
-
-    case create_post(post_params) do
+    %{text: post_params["text"], user_id: conn.assigns.current_user.id}
+    |> create_post()
+    |> case do
       {:ok, _post} ->
         conn
         |> put_flash(:info, "Post created")
@@ -24,8 +24,6 @@ defmodule ElixirBlogWeb.PostController do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
-
     end
-    render(conn, "index.html")
   end
 end
