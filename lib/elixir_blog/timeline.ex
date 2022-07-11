@@ -49,9 +49,9 @@ defmodule ElixirBlog.Timeline do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_post(attrs \\ %{}) do
+  def create_post(%{text: text, user_id: user_id} \\ %{text: nil, user_id: nil}) do
     %Post{}
-    |> change_post(attrs)
+    |> change_post(%{text: text, user_id: user_id})
     |> Repo.insert()
   end
 

@@ -10,7 +10,7 @@ defmodule ElixirBlogWeb.PostController do
   def new(conn, _params) do
     changeset = Post.changeset(%Post{})
     IO.inspect(conn.assigns.current_user)
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, errs: [])
   end
 
   def create(conn, %{"post" => post_params}) do
@@ -23,10 +23,12 @@ defmodule ElixirBlogWeb.PostController do
         |> redirect(to: Routes.post_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        
+        errs =
+          changeset.errors
+          |> Enum.map(fn {k, n} -> {k, elem(n, 0)} end)
 
         conn
-        |> render("new.html", changeset: changeset)
+        |> render("new.html", changeset: changeset, errs: errs)
     end
   end
 end
