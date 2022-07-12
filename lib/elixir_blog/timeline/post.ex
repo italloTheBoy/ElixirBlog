@@ -22,4 +22,6 @@ defmodule ElixirBlog.Timeline.Post do
     |> validate_number(:likes, greater_than: -1, message: "número invalido de likes")
     |> validate_number(:dislikes, greater_than: -1, message: "número invalido de dislikes")
   end
+
+  
 end

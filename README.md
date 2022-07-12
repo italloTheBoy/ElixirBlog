@@ -15,7 +15,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 **Posts:**
 
-  - Create post.
+  - <s>Create post.</s>
   - Get timeline.
   - Get posts by user.
   - Get current user posts.
