@@ -14,7 +14,10 @@ defmodule ElixirBlogWeb.PostController do
   end
 
   def create(conn, %{"post" => post_params}) do
-    %{text: post_params["text"], user_id: conn.assigns.current_user.id}
+    %{
+      text: post_params["text"],
+      user_id: conn.assigns.current_user.id
+    }
     |> create_post()
     |> case do
       {:ok, _post} ->
@@ -23,12 +26,8 @@ defmodule ElixirBlogWeb.PostController do
         |> redirect(to: Routes.post_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        errs =
-          changeset.errors
-          |> Enum.map(fn {k, n} -> {k, elem(n, 0)} end)
-
         conn
-        |> render("new.html", changeset: changeset, errs: errs)
+        |> render("new.html", changeset: changeset)
     end
   end
 end
