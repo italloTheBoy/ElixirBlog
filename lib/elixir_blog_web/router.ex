@@ -79,6 +79,8 @@ defmodule ElixirBlogWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
+    get "/perfil/:user_id", PerfilController, :index
+
     resources "/posts", PostController
   end
 

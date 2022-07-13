@@ -21,6 +21,15 @@ defmodule ElixirBlog.Timeline do
     Repo.all(Post)
   end
 
+  @doc false
+  def list_user_posts(user_id) do
+    from(p in Post,
+      where: p.user_id == ^user_id,
+      preload: [:user]
+    )
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single post.
 
