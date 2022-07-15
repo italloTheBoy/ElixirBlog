@@ -1,22 +1,28 @@
-<h1><%= @user.username %></h1>
-<hr>
+<header>
+  <h1><%= @user.username %></h1>
+</header>
 
 <%= if @user == @conn.assigns.current_user do %>
-  <ul>
-    <li>Atualizar meus dados</li>
-    <li>Excluir essa conta</li>
-  </ul>  
-
-  <hr>
-<% end %>
-
-<%= for post <- @posts do %>
-  <fieldset>
-    <strong><%= post.user.username %></strong>
-    <p><%= post.text %></p>
-    <%= button "like", to: "/" %>
-    <%= button "dislike", to: "/" %>
-
+  <section>
+    <ul>
+      <li><%= link "Faça uma postagem", to: Routes.post_path(@conn, :new) %></li>
+      <li>Atualizar meus dados</li>
+      <li>Excluir essa conta</li>
+    </ul>
+  
     <hr>
-  </fieldset>
+  </section>
 <% end %>
+
+<main>
+  <%= for post <- @posts do %>
+    <article>
+      <strong><%= link post.user.username, to: Routes.post_path(@conn, :show, post.id) %></strong>
+      <p><%= post.text %></p>
+      <%= button "like", to: "/" %>
+      <%= button "dislike", to: "/" %>
+  
+      <hr>
+    </article>
+  <% end %>
+</main>

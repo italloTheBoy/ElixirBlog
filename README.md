@@ -16,9 +16,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 **Posts:**
 
   - <s>Create post.</s>
+  - <s>Get posts by user.</s>
+  - <s>Perfil page.</s>
+  - <s>Post page</s>
   - Get timeline.
-  - Get posts by user.
-  - Get current user posts.
   - Get posts commented by specific user.
   - Get posts liked by specific user.
   - Get featured posts.

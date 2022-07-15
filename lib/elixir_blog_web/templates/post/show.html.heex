@@ -1,0 +1,15 @@
+<main>
+  <header>
+    <strong><%= @post.user.username %></strong>
+  </header>
+  
+  <main>
+    <p><%= @post.text %></p>
+  </main>
+  
+  <nav>
+    <hr>
+    <%= button "like", to: "/" %>
+    <%= button "dislike", to: "/" %>
+  </nav>
+</main>

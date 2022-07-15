@@ -3,13 +3,14 @@ defmodule ElixirBlogWeb.PostController do
   import ElixirBlog.Timeline
   alias ElixirBlog.Timeline.Post
 
-  def index(conn, %{}) do
-    render(conn, "index.html")
+  def show(conn, %{"id" => id}) do
+    post = get_post!(id)
+
+    render(conn, "show.html", post: post)
   end
 
   def new(conn, _params) do
     changeset = Post.changeset(%Post{})
-    IO.inspect(conn.assigns.current_user)
     render(conn, "new.html", changeset: changeset, errs: [])
   end
 

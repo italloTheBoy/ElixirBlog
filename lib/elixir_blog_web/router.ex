@@ -82,6 +82,7 @@ defmodule ElixirBlogWeb.Router do
     get "/perfil/:user_id", PerfilController, :index
 
     resources "/posts", PostController
+
   end
 
   scope "/", ElixirBlogWeb do

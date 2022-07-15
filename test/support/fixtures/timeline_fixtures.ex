@@ -19,4 +19,18 @@ defmodule ElixirBlog.TimelineFixtures do
 
     post
   end
+
+  @doc """
+  Generate a like.
+  """
+  def like_fixture(attrs \\ %{}) do
+    {:ok, like} =
+      attrs
+      |> Enum.into(%{
+        type: "some type"
+      })
+      |> ElixirBlog.Timeline.create_like()
+
+    like
+  end
 end

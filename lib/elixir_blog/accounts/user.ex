@@ -1,6 +1,7 @@
 defmodule ElixirBlog.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias ElixirBlog.Timeline.{Post, Like}
 
   schema "users" do
     field :email, :string
@@ -9,7 +10,8 @@ defmodule ElixirBlog.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
-    has_many :posts, ElixirBlog.Timeline.Post, on_delete: :delete_all
+    has_many :posts, Post, on_delete: :delete_all
+    has_many :likes, Like, on_delete: :delete_all
 
     timestamps()
   end
