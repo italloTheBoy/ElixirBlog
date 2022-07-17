@@ -18,7 +18,7 @@ defmodule ElixirBlog.Timeline.Like do
   @doc false
   def changeset(like, attrs) do
     like
-    |> cast(attrs, [:type, :user_id, :post_id])
+    |> cast(attrs, [:type])
     |> validate_type()
     |> validate_associations()
   end
@@ -31,6 +31,8 @@ defmodule ElixirBlog.Timeline.Like do
 
   def validate_associations(changeset) do
     changeset
+    |> cast_assoc(:user, required: true)
+    |> cast_assoc(:post, required: true)
     |> assoc_constraint(:user, message: "Usuário inválido")
     |> assoc_constraint(:post, message: "Post inválido")
     |> unique_constraint([:user, :post], message: "Reação ja existe")
