@@ -74,7 +74,6 @@ defmodule ElixirBlog.Timeline do
   def create_post(%{text: text, user_id: user_id} \\ %{text: nil, user_id: nil}) do
     %Post{}
     |> change_post(%{text: text, user_id: user_id})
-    |> IO.inspect()
     |> Repo.insert()
   end
 

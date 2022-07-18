@@ -17,7 +17,7 @@ defmodule ElixirBlog.Timeline.Post do
   end
 
   @doc false
-  def changeset(post, attrs \\ %{}) do
+  def changeset(%__MODULE__{} = post, attrs \\ %{}) do
     post
     |> cast(attrs, [:text, :user_id])
     |> validate_text()
