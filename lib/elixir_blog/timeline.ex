@@ -4,8 +4,9 @@ defmodule ElixirBlog.Timeline do
   """
 
   import Ecto.Query, warn: false
-  alias ElixirBlog.Repo
 
+  alias ElixirBlog.Repo
+  alias ElixirBlog.Accounts.User
   alias ElixirBlog.Timeline.Post
 
   @doc """
@@ -167,8 +168,9 @@ defmodule ElixirBlog.Timeline do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_like(attrs \\ %{}) do
-    %Like{}
+  def create_like(%User{} = user \\ %User{} , attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:likes)
     |> Like.changeset(attrs)
     |> Repo.insert()
   end

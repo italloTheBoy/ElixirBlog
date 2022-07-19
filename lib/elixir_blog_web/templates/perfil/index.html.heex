@@ -19,8 +19,13 @@
     <article>
       <strong><%= link post.user.username, to: Routes.post_path(@conn, :show, post.id) %></strong>
       <p><%= post.text %></p>
-      <%= button "like", to: "/" %>
-      <%= button "dislike", to: "/" %>
+      
+      <%= button "like", 
+        to: Routes.post_like_path(@conn, :create, post.id, "like") 
+      %>
+      <%= button "dislike", 
+        to: Routes.post_like_path(@conn, :create, post.id, "dislike") 
+      %>
   
       <hr>
     </article>
