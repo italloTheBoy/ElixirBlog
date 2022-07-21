@@ -16,17 +16,33 @@
 
 <main>
   <%= for post <- @posts do %>
+
     <article>
       <strong><%= link post.user.username, to: Routes.post_path(@conn, :show, post.id) %></strong>
+
       <p><%= post.text %></p>
       
-      <%= button "like", 
-        to: Routes.post_like_path(@conn, :create, post.id, "like") 
-      %>
-      <%= button "dislike", 
-        to: Routes.post_like_path(@conn, :create, post.id, "dislike") 
-      %>
-  
+      <%= case get_like_type(post.user.id, post.id) do %>
+        <% :like -> %>
+          <%= button "like", to: "/" %>
+          <%= button "dislike", to: "/", class: "btn-gray" %>
+        
+        <% :unlike -> %>
+          <%= button "like", 
+            to: Routes.post_like_path(@conn, :create, post.id, "like"), 
+            class: "btn-gray" 
+          %>
+          
+          <%= button "dislike", 
+            to: Routes.post_like_path(@conn, :create, post.id, "dislike"), 
+            class: "btn-gray" 
+          %>
+        
+        <% :dislike -> %>
+          <%= button "like", to: "/", class: "btn-gray" %>
+          <%= button "dislike", to: "/", class: "btn-red" %>
+      <% end %>
+
       <hr>
     </article>
   <% end %>

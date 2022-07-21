@@ -16,8 +16,15 @@
         <%= button "dislike", to: "/", class: "btn-gray" %>
       
       <% :unlike -> %>
-        <%= button "like", to: "/", class: "btn-gray" %>
-        <%= button "dislike", to: "/", class: "btn-gray" %>
+        <%= button "like", 
+          to: Routes.post_like_path(@conn, :create, @post.id, "like"), 
+          class: "btn-gray" 
+        %>
+
+        <%= button "dislike", 
+          to: Routes.post_like_path(@conn, :create, @post.id, "dilike"), 
+          class: "btn-gray" 
+        %>
       
       <% :dislike -> %>
         <%= button "like", to: "/", class: "btn-gray" %>
