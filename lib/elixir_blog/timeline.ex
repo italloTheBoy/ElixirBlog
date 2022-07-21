@@ -8,6 +8,7 @@ defmodule ElixirBlog.Timeline do
   alias ElixirBlog.Repo
   alias ElixirBlog.Accounts.User
   alias ElixirBlog.Timeline.Post
+  alias ElixirBlog.Timeline.Like
 
   @doc """
   Returns the list of posts.
@@ -125,8 +126,6 @@ defmodule ElixirBlog.Timeline do
     Post.changeset(post, attrs)
   end
 
-  alias ElixirBlog.Timeline.Like
-
   @doc """
   Returns the list of likes.
 
@@ -147,30 +146,79 @@ defmodule ElixirBlog.Timeline do
 
   ## Examples
 
-      iex> get_like!(123)
+      iex> get_like!(123, 231)
       %Like{}
 
-      iex> get_like!(456)
+      iex> get_like!(456, 122)
       ** (Ecto.NoResultsError)
 
   """
-  def get_like!(id), do: Repo.get!(Like, id)
+  def get_like!(user_id, post_id) do
+    from(l in Like,
+      where: l.user_id == ^user_id and l.post_id == ^post_id
+    )
+    |> Repo.one!
+  end
+
+  @doc """
+  Gets a single like.
+
+  ## Examples
+
+      iex> get_like!(123, 231)
+      %Like{}
+
+      iex> get_like!(456, 122)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_like(user_id, post_id) do
+    from(l in Like,
+      where: l.user_id == ^user_id and l.post_id == ^post_id
+    )
+    |> Repo.one
+  end
+
+  @doc """
+  Returns the like type
+
+  If the post has not been liked returns :unlike
+
+  ## Examples
+
+      iex> get_like_type(8, 2)
+      :like
+
+      iex> get_like_type(5, 7)
+      :unlike
+
+      iex> get_like_type(9, 4)
+      :dislike
+  """
+  def get_like_type(user_id, post_id) do
+    get_like(user_id, post_id)
+    |>  IO.inspect()
+    |> case do
+      %Like{type: type} -> type
+
+      _ -> :unlike
+    end
+  end
 
   @doc """
   Creates a like.
 
   ## Examples
 
-      iex> create_like(%{field: value})
+      iex> create_like(%{user: value, post_id: value, type: value})
       {:ok, %Like{}}
 
-      iex> create_like(%{field: bad_value})
+      iex> create_like(%{user: bad_value, post_id: bad_value, type: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_like(%User{} = user \\ %User{} , attrs \\ %{}) do
-    user
-    |> Ecto.build_assoc(:likes)
+  def create_like(attrs \\ %{}) do
+    %Like{}
     |> Like.changeset(attrs)
     |> Repo.insert()
   end

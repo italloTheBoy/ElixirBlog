@@ -19,7 +19,7 @@ defmodule ElixirBlog.Timeline.Like do
   end
 
   @doc false
-  def changeset(%__MODULE__{} = like, attrs \\ %{}) do
+  def changeset(like, attrs \\ %{}) do
     like
     |> cast(attrs, [:type, :user_id, :post_id])
     |> validate_associations()
