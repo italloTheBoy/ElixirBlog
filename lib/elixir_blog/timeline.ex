@@ -235,10 +235,18 @@ defmodule ElixirBlog.Timeline do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_like(%Like{} = like, attrs) do
-    like
-    |> Like.changeset(attrs)
-    |> Repo.update()
+  def toggle_like_type(%Like{type: original_type} = like) do
+    new_type =
+      case original_type do
+        :like -> :dislike
+        :dislike -> :like
+      end
+
+    from(l in Like,
+      where: l.user_id == ^like.user_id and l.post_id == ^like.post_id,
+      update: [set: [type: ^new_type]]
+    )
+    |> Repo.update_all([])
   end
 
   @doc """

@@ -25,7 +25,12 @@
       <%= case get_like_type(post.user.id, post.id) do %>
         <% :like -> %>
           <%= button "like", to: "/" %>
-          <%= button "dislike", to: "/", class: "btn-gray" %>
+
+          <%= button "dislike", 
+            to: Routes.post_like_path(@conn, :update, post.id), 
+            class: "btn-gray", 
+            method: :patch 
+          %>
         
         <% :unlike -> %>
           <%= button "like", 
@@ -39,7 +44,12 @@
           %>
         
         <% :dislike -> %>
-          <%= button "like", to: "/", class: "btn-gray" %>
+          <%= button "like", 
+            to: Routes.post_like_path(@conn, :update, post.id), 
+            class: "btn-gray", 
+            method: :patch 
+          %>
+
           <%= button "dislike", to: "/", class: "btn-red" %>
       <% end %>
 
