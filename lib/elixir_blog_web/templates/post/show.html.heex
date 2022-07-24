@@ -12,7 +12,10 @@
 
     <%= case @like_type do %>
       <% :like -> %>
-        <%= button "like", to: "/" %>
+        <%= button "like", 
+          to: Routes.post_like_path(@conn, :delete, @post.id), 
+          method: :delete
+        %>
 
         <%= button "dislike", 
           to: Routes.post_like_path(@conn, :update, @post.id), 
@@ -27,7 +30,7 @@
         %>
 
         <%= button "dislike", 
-          to: Routes.post_like_path(@conn, :create, @post.id, "dilike"), 
+          to: Routes.post_like_path(@conn, :create, @post.id, "dislike"), 
           class: "btn-gray" 
         %>
       
@@ -38,7 +41,11 @@
           method: :patch 
         %>
 
-        <%= button "dislike", to: "/", class: "btn-red" %>
+        <%= button "dislike", 
+          to: Routes.post_like_path(@conn, :delete, @post.id), 
+          class: "btn-red",
+          method: :delete
+        %>
     <% end %>
   </nav>
 </main>

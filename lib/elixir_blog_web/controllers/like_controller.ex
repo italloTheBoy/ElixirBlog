@@ -19,6 +19,7 @@ defmodule ElixirBlogWeb.LikeController do
 
       {:error, _changeset} ->
         conn
+        |> put_status(500)
         |> put_flash(:error, "Ocorreu um erro inesperado")
         |> redirect(to: Routes.post_path(conn, :show, post_id))
     end
@@ -34,9 +35,25 @@ defmodule ElixirBlogWeb.LikeController do
 
       _ ->
         conn
+        |> put_status(500)
         |> put_flash(:error, "Ocorreu um erro inesperado")
         |> redirect(to: Routes.post_path(conn, :show, post_id))
     end
+  end
 
+  def delete(conn, %{"post_id" => post_id}) do
+    case like_to_delete = get_like(conn.assigns[:current_user].id, post_id) do
+      %Like{} ->
+        delete_like(like_to_delete)
+
+        conn
+        |> redirect(to: Routes.post_path(conn, :show, post_id))
+
+      _ ->
+        conn
+        |> put_status(500)
+        |> put_flash(:error, "Ocorreu um erro inesperado")
+        |> redirect(to: Routes.post_path(conn, :show, post_id))
+    end
   end
 end

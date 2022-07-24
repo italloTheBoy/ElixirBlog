@@ -157,7 +157,7 @@ defmodule ElixirBlog.Timeline do
     from(l in Like,
       where: l.user_id == ^user_id and l.post_id == ^post_id
     )
-    |> Repo.one!
+    |> Repo.one!()
   end
 
   @doc """
@@ -176,7 +176,7 @@ defmodule ElixirBlog.Timeline do
     from(l in Like,
       where: l.user_id == ^user_id and l.post_id == ^post_id
     )
-    |> Repo.one
+    |> Repo.one()
   end
 
   @doc """
@@ -197,10 +197,9 @@ defmodule ElixirBlog.Timeline do
   """
   def get_like_type(user_id, post_id) do
     get_like(user_id, post_id)
-    |>  IO.inspect()
+    |> IO.inspect()
     |> case do
       %Like{type: type} -> type
-
       _ -> :unlike
     end
   end
@@ -224,18 +223,18 @@ defmodule ElixirBlog.Timeline do
   end
 
   @doc """
-  Updates a like.
+  Toggle like type.
 
   ## Examples
 
-      iex> update_like(like, %{field: new_value})
-      {:ok, %Like{}}
+      iex> toggle_like_type(%Like{})
+      %Like{}
 
-      iex> update_like(like, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+      iex> toggle_like_type(bad_value)
+      CaseClauseError
 
   """
-  def toggle_like_type(%Like{type: original_type} = like) do
+  def toggle_like_type(%Like{type: original_type, user_id: user_id, post_id: post_id}) do
     new_type =
       case original_type do
         :like -> :dislike
@@ -243,7 +242,7 @@ defmodule ElixirBlog.Timeline do
       end
 
     from(l in Like,
-      where: l.user_id == ^like.user_id and l.post_id == ^like.post_id,
+      where: l.user_id == ^user_id and l.post_id == ^post_id,
       update: [set: [type: ^new_type]]
     )
     |> Repo.update_all([])
@@ -255,14 +254,17 @@ defmodule ElixirBlog.Timeline do
   ## Examples
 
       iex> delete_like(like)
-      {:ok, %Like{}}
+      {0, nil}
 
       iex> delete_like(like)
-      {:error, %Ecto.Changeset{}}
+      {5, nill}
 
   """
-  def delete_like(%Like{} = like) do
-    Repo.delete(like)
+  def delete_like(%Like{user_id: user_id, post_id: post_id}) do
+    from(l in Like,
+      where: l.user_id == ^user_id and l.post_id == ^post_id
+    )
+    |> Repo.delete_all()
   end
 
   @doc """

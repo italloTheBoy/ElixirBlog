@@ -9,7 +9,6 @@ defmodule ElixirBlog.Timeline.Like do
   @primary_key false
 
   schema "likes" do
-
     field :type, Ecto.Enum, values: [like: "like", dislike: "dislike"]
 
     belongs_to :user, User
@@ -36,19 +35,22 @@ defmodule ElixirBlog.Timeline.Like do
     changeset
     |> validate_user()
     |> validate_post()
-    |> unsafe_validate_unique([:user_id, :post_id], ElixirBlog.Repo, message: "Reação ja existe", error_key: :like)
+    |> unsafe_validate_unique([:user_id, :post_id], ElixirBlog.Repo,
+      message: "Reação ja existe",
+      error_key: :like
+    )
     |> unique_constraint([:user_id, :post_id], message: "Reação ja existe", error_key: :like)
   end
 
   defp validate_user(changeset) do
     changeset
-    |> validate_required([:user_id], message:  "Login necessário")
+    |> validate_required([:user_id], message: "Login necessário")
     |> assoc_constraint(:user, message: "Login inválido")
   end
 
   defp validate_post(changeset) do
     changeset
-    |> validate_required([:post_id], message:  "Post necessário")
+    |> validate_required([:post_id], message: "Post necessário")
     |> assoc_constraint(:post, message: "Post inválido")
   end
 end

@@ -82,9 +82,9 @@ defmodule ElixirBlogWeb.Router do
     get "/perfil/:user_id", PerfilController, :index
 
     resources "/posts", PostController do
-      resources "/likes", LikeController, except: [:create, :update]
       post "/likes/:type", LikeController, :create
       patch "/likes", LikeController, :update
+      delete "/likes", LikeController, :delete
     end
   end
 
