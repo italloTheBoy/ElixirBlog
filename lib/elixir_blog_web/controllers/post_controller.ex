@@ -17,20 +17,23 @@ defmodule ElixirBlogWeb.PostController do
 
   def new(conn, _params) do
     changeset = Post.changeset(%Post{})
-    render(conn, "new.html", changeset: changeset, errs: [])
+
+    render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"post" => post_params}) do
+    user = conn.assigns.current_user
+
     %{
       text: post_params["text"],
-      user_id: conn.assigns.current_user.id
+      user_id: user.id
     }
     |> create_post()
     |> case do
       {:ok, _post} ->
         conn
         |> put_flash(:info, "Post created")
-        |> redirect(to: Routes.post_path(conn, :index))
+        |> redirect(to: Routes.perfil_path(conn, :index, user.id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn

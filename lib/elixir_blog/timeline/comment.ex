@@ -1,27 +1,30 @@
-defmodule ElixirBlog.Timeline.Post do
+defmodule ElixirBlog.Timeline.Comment do
   use Ecto.Schema
 
   import Ecto.Changeset
 
   alias ElixirBlog.Accounts.{User}
-  alias ElixirBlog.Timeline.{Like}
+  alias ElixirBlog.Timeline.{Post, Like}
 
-  schema "posts" do
+
+  schema "comments" do
     field :text, :string
 
     belongs_to :user, User
+    belongs_to :post, Post
 
-    has_many :likes, Like, on_delete: :delete_all
+    # has_many :likes, Like
 
     timestamps()
   end
 
   @doc false
-  def changeset(post, attrs \\ %{}) do
-    post
-    |> cast(attrs, [:text, :user_id])
+  def changeset(comment, attrs \\ %{}) do
+    comment
+    |> cast(attrs, [:text, :user_id, :post_id])
     |> validate_text()
     |> validate_user()
+    |> validate_post()
   end
 
   @doc false
@@ -36,5 +39,12 @@ defmodule ElixirBlog.Timeline.Post do
     changeset
     |> validate_required([:user_id], message:  "Login necessário")
     |> assoc_constraint(:user, message: "Login inválido")
+  end
+
+  @doc false
+  defp validate_post(changeset) do
+    changeset
+    |> validate_required([:post_id], message:  "Post necessário")
+    |> assoc_constraint(:user, message: "Post inválido")
   end
 end

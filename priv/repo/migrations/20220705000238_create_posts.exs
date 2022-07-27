@@ -11,7 +11,7 @@ defmodule ElixirBlog.Repo.Migrations.CreatePosts do
 
       timestamps()
     end
-    
+
     create index(:posts, [:user_id])
   end
 
