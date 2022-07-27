@@ -18,7 +18,9 @@
   <%= for post <- @posts do %>
 
     <article>
-      <strong><%= link post.user.username, to: Routes.post_path(@conn, :show, post.id) %></strong>
+      <strong>
+        <%= link post.user.username, to: Routes.post_path(@conn, :show, post.id) %>
+      </strong>
 
       <p><%= post.text %></p>
       

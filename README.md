@@ -19,17 +19,26 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   - <s>Get posts by user.</s>
   - <s>Perfil page.</s>
   - <s>Post page</s>
+  - <s>Get posts.</s>
+  - Get commented posts.
+  - Get liked posts.
   - Get timeline.
-  - Get posts commented by specific user.
-  - Get posts liked by specific user.
   - Get featured posts.
-  - Increment likes.
-  - Increment dislikes.
-  - Decrement likes.
-  - Decrement dislikes.
   - Delete post.
 
+**Likes:**
 
+  - <s>Create likes.</s>
+  - <s>Increment likes.</s>
+  - <s>Increment dislikes.</s>
+  - <s>Decrement likes.</s>
+  - <s>Decrement dislikes.</s>
+  - <s>Delete like</s>
+
+**Comments:**
+
+  - Create Comment.
+  - Delete comment. 
 
 ## Learn more
 

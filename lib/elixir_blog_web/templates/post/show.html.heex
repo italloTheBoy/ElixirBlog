@@ -47,5 +47,21 @@
           method: :delete
         %>
     <% end %>
+
+    <%= if @post.user.id == @conn.assigns.current_user.id do %>
+      <hr>
+      <p>Opções</p>
+
+      <ul>
+        <li>
+          <%= link "Deletar post", 
+            method: :delete,
+            to: Routes.post_path(@conn, :delete, @post.id)
+          %>
+        </li>
+      </ul>
+    <% end %>
+
+
   </nav>
 </main>
