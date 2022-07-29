@@ -13,7 +13,7 @@ defmodule ElixirBlog.Timeline.Comment do
     belongs_to :user, User
     belongs_to :post, Post
 
-    # has_many :likes, Like
+    has_many :likes, Like, on_delete: :delete_all
 
     timestamps()
   end

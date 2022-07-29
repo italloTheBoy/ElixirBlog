@@ -32,7 +32,7 @@ defmodule ElixirBlogWeb.PostController do
     |> case do
       {:ok, _post} ->
         conn
-        |> put_flash(:info, "Post created")
+        |> put_flash(:info, "Post criado")
         |> redirect(to: Routes.perfil_path(conn, :index, user.id))
 
       {:error, %Ecto.Changeset{} = changeset} ->

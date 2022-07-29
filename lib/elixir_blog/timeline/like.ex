@@ -4,8 +4,9 @@ defmodule ElixirBlog.Timeline.Like do
   import Ecto.Changeset
 
   alias ElixirBlog.Accounts.User
-  alias ElixirBlog.Timeline.Post
+  alias ElixirBlog.Timeline.{Post, Comment}
 
+  @permitted_columns [:type, :user_id, :post_id, :comment_id]
   @primary_key false
 
   schema "likes" do
@@ -13,6 +14,7 @@ defmodule ElixirBlog.Timeline.Like do
 
     belongs_to :user, User
     belongs_to :post, Post
+    belongs_to :comment, Comment
 
     timestamps()
   end
@@ -20,7 +22,7 @@ defmodule ElixirBlog.Timeline.Like do
   @doc false
   def changeset(like, attrs \\ %{}) do
     like
-    |> cast(attrs, [:type, :user_id, :post_id])
+    |> cast(attrs, @permitted_columns)
     |> validate_associations()
     |> validate_type()
   end
@@ -33,13 +35,13 @@ defmodule ElixirBlog.Timeline.Like do
 
   defp validate_associations(changeset) do
     changeset
+    |> check_constraint(:like,
+      name: :like_belongs_to_only_interaction,
+      message: "Reação inválida"
+    )
     |> validate_user()
     |> validate_post()
-    |> unsafe_validate_unique([:user_id, :post_id], ElixirBlog.Repo,
-      message: "Reação ja existe",
-      error_key: :like
-    )
-    |> unique_constraint([:user_id, :post_id], message: "Reação ja existe", error_key: :like)
+    |> validate_comment()
   end
 
   defp validate_user(changeset) do
@@ -50,7 +52,21 @@ defmodule ElixirBlog.Timeline.Like do
 
   defp validate_post(changeset) do
     changeset
-    |> validate_required([:post_id], message: "Post necessário")
     |> assoc_constraint(:post, message: "Post inválido")
+    |> unsafe_validate_unique([:user_id, :post_id], ElixirBlog.Repo,
+      message: "Reação ja existe",
+      error_key: :like
+    )
+    |> unique_constraint([:user_id, :post_id], message: "Reação ja existe", error_key: :like)
+  end
+
+  defp validate_comment(changeset) do
+    changeset
+    |> assoc_constraint(:comment, message: "Comentario inválido")
+    |> unsafe_validate_unique([:user_id, :comment_id], ElixirBlog.Repo,
+      message: "Reação ja existe",
+      error_key: :like
+    )
+    |> unique_constraint([:user_id, :comment_id], message: "Reação ja existe", error_key: :like)
   end
 end

@@ -11,19 +11,20 @@ defmodule ElixirBlogWeb.CommentController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"post" => post_params}) do
+  def create(conn, %{"comment" => comment_params}) do
     user = conn.assigns.current_user
 
     %{
-      text: post_params["text"],
-      user_id: user.id
+      text: comment_params.text,
+      post_id: comment_params.post_id,
+      user_id: user.id,
     }
-    |> create_post()
+    |> create_comment()
     |> case do
-      {:ok, _post} ->
+      {:ok, _comment} ->
         conn
-        |> put_flash(:info, "Post created")
-        |> redirect(to: Routes.perfil_path(conn, :index, user.id))
+        |> put_flash(:info, "Post comentado")
+        |> redirect(to: Routes.post_path(conn, :show, comment_params.post_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn

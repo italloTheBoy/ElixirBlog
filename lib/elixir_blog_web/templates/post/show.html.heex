@@ -1,6 +1,10 @@
 <main>
   <header>
-    <strong><%= @post.user.username %></strong>
+    <strong>
+      <%= link @post.user.username,
+        to: Routes.perfil_path(@conn, :index, @post.user.id)
+      %>
+    </strong>
   </header>
   
   <main>
