@@ -27,12 +27,14 @@ defmodule ElixirBlog.Timeline.Like do
     |> validate_type()
   end
 
+  @doc false
   defp validate_type(changeset) do
     changeset
     |> validate_required([:type], message: "Reação requerida")
     |> validate_inclusion(:type, [:like, :dislike], message: "Reação invalida")
   end
 
+  @doc false
   defp validate_associations(changeset) do
     changeset
     |> check_constraint(:like,
@@ -44,12 +46,14 @@ defmodule ElixirBlog.Timeline.Like do
     |> validate_comment()
   end
 
+  @doc false
   defp validate_user(changeset) do
     changeset
     |> validate_required([:user_id], message: "Login necessário")
     |> assoc_constraint(:user, message: "Login inválido")
   end
 
+  @doc false
   defp validate_post(changeset) do
     changeset
     |> assoc_constraint(:post, message: "Post inválido")
@@ -60,6 +64,7 @@ defmodule ElixirBlog.Timeline.Like do
     |> unique_constraint([:user_id, :post_id], message: "Reação ja existe", error_key: :like)
   end
 
+  @doc false
   defp validate_comment(changeset) do
     changeset
     |> assoc_constraint(:comment, message: "Comentario inválido")

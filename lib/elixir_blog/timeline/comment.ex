@@ -45,6 +45,6 @@ defmodule ElixirBlog.Timeline.Comment do
   defp validate_post(changeset) do
     changeset
     |> validate_required([:post_id], message:  "Post necessário")
-    |> assoc_constraint(:user, message: "Post inválido")
+    |> assoc_constraint(:post, message: "Post inválido")
   end
 end

@@ -3,16 +3,18 @@ defmodule ElixirBlogWeb.PostController do
 
   import ElixirBlog.Timeline
 
-  alias ElixirBlog.Timeline.Post
+  alias ElixirBlog.Timeline.{Post, Comment}
 
   def show(conn, %{"id" => id}) do
+    changeset = Comment.changeset(%Comment{})
+
     post = get_post(id)
 
     like_type =
       conn.assigns.current_user.id
       |> get_like_type(post.id)
 
-    render(conn, "show.html", post: post, like_type: like_type)
+    render(conn, "show.html", post: post, like_type: like_type, changeset: changeset)
   end
 
   def new(conn, _params) do

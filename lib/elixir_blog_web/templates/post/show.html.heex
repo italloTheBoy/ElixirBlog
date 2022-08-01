@@ -51,21 +51,23 @@
           method: :delete
         %>
     <% end %>
+  </nav>
 
-    <%= if @post.user.id == @conn.assigns.current_user.id do %>
-      <hr>
-      <p>Opções</p>
+  <section>
+    <hr>
+    <p>Opções</p>
 
-      <ul>
+    <ul>
+      <li><%= link "Fazer um Comentario", to: Routes.post_comment_path(@conn, :new, @post.id) %></li>
+
+      <%= if @post.user.id == @conn.assigns.current_user.id do %>
         <li>
           <%= link "Deletar post", 
             method: :delete,
             to: Routes.post_path(@conn, :delete, @post.id)
           %>
         </li>
-      </ul>
-    <% end %>
-
-
-  </nav>
+      <% end %>
+    </ul>
+  </section>
 </main>
