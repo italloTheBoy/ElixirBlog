@@ -313,6 +313,26 @@ defmodule ElixirBlog.Timeline do
   end
 
   @doc """
+  Recives a post id and returns his comments
+
+  ## Examples
+
+      iex> list_comments(post_id)
+      [%Comment{}, ...]
+
+      iex> list_comments(%Post{})
+      [%Comment{}, ...]
+
+  """
+  def list_post_comments(id) do
+    from(c in Comment,
+      where: c.post_id == ^id,
+      preload: [:user]
+    )
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single comment.
 
   Raises `Ecto.NoResultsError` if the Comment does not exist.

@@ -1,10 +1,10 @@
-<main>
+<main class="box">
   <header>
-    <strong>
+    <h1>
       <%= link @post.user.username,
         to: Routes.perfil_path(@conn, :index, @post.user.id)
       %>
-    </strong>
+    </h1>
   </header>
   
   <main>
@@ -71,3 +71,30 @@
     </ul>
   </section>
 </main>
+
+<section>
+  <h2>Comentarios:</h2>
+
+  <%= for %ElixirBlog.Timeline.Comment{user: user} = comment <- @comments do %>
+    <article class="container box"> 
+        <header>
+          <h3>
+            <%= link user.username,
+              to: Routes.perfil_path(@conn, :index, user.id)
+            %>
+          </h3>
+        </header>
+
+        <main>
+          <p><%= comment.text %></p>
+        </main>
+        
+        <hr>
+        
+        <nav>
+          <button>like</button>
+          <button>dislike</button>
+        </nav>
+    </article>
+  <% end %>
+</section>

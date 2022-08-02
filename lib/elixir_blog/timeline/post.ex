@@ -4,13 +4,14 @@ defmodule ElixirBlog.Timeline.Post do
   import Ecto.Changeset
 
   alias ElixirBlog.Accounts.{User}
-  alias ElixirBlog.Timeline.{Like}
+  alias ElixirBlog.Timeline.{Comment, Like}
 
   schema "posts" do
     field :text, :string
 
     belongs_to :user, User
 
+    has_many :comments, Comment, on_delete: :delete_all
     has_many :likes, Like, on_delete: :delete_all
 
     timestamps()
