@@ -94,6 +94,12 @@
         <nav>
           <button>like</button>
           <button>dislike</button>
+          <%= if @conn.assigns.current_user.id == user.id do %>
+            <%= button "Deletar", 
+              to: Routes.comment_path(@conn, :delete, user.id),
+              method: :delete
+            %>
+          <% end %>
         </nav>
     </article>
   <% end %>

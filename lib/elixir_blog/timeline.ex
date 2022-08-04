@@ -327,7 +327,8 @@ defmodule ElixirBlog.Timeline do
   def list_post_comments(id) do
     from(c in Comment,
       where: c.post_id == ^id,
-      preload: [:user]
+      preload: [:user],
+      order_by: [desc: :updated_at]
     )
     |> Repo.all()
   end
@@ -335,18 +336,24 @@ defmodule ElixirBlog.Timeline do
   @doc """
   Gets a single comment.
 
-  Raises `Ecto.NoResultsError` if the Comment does not exist.
+  Raises `nil` if the Comment does not exist.
 
   ## Examples
 
-      iex> get_comment!(123)
+      iex> get_comment(123)
       %Comment{}
 
-      iex> get_comment!(456)
+      iex> get_comment(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_comment!(id), do: Repo.get!(Comment, id)
+  def get_comment(id, relations \\ []) do
+    from(c in Comment,
+      where: c.id == ^id,
+      preload: ^relations
+    )
+    |> Repo.one()
+  end
 
   @doc """
   Creates a comment.

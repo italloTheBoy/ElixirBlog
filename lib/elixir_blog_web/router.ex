@@ -86,8 +86,10 @@ defmodule ElixirBlogWeb.Router do
       patch "/likes", LikeController, :update
       delete "/likes", LikeController, :delete
 
-      resources "/comments", CommentController, only: [:new, :create, :delete]
+      resources "/comments", CommentController, only: [:new, :create]
     end
+
+    resources "/comments", CommentController, only: [:delete]
   end
 
   scope "/", ElixirBlogWeb do
