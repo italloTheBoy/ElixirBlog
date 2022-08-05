@@ -96,7 +96,7 @@
           <button>dislike</button>
           <%= if @conn.assigns.current_user.id == user.id do %>
             <%= button "Deletar", 
-              to: Routes.comment_path(@conn, :delete, user.id),
+              to: Routes.post_comment_path(@conn, :delete, @post.id ,comment.id),
               method: :delete
             %>
           <% end %>

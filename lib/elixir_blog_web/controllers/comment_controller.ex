@@ -14,7 +14,7 @@ defmodule ElixirBlogWeb.CommentController do
     )
   end
 
-  def create(conn, %{ "comment" => %{"text" => text, "post_id" => post_id} }) do
+  def create(conn, %{"comment" => %{"text" => text, "post_id" => post_id}}) do
     %{id: user_id} = conn.assigns.current_user
 
     params = %{
@@ -37,27 +37,29 @@ defmodule ElixirBlogWeb.CommentController do
     end
   end
 
-  def delete(conn, %{"id" => comment_id}) do
-    comment = get_comment(comment_id, [:user, :post])
-
-    case comment do
-      %Comment{} ->
-    end
-
-    %Comment{user: user, post: post}
-
-    [current_user: current_user] = conn.assigns
-
-    if current_user.id == user.id do
-      delete_comment(comment)
-
-      conn
-      |> put_flash(:info, "Comentario apagado")
-      |> redirect(to: Routes.post_path(conn, :show, post.id))
-    else
+  def delete(conn, %{"post_id" => post_id, "id" => comment_id}) do
+    redirect_if_err = fn conn, post_id ->
       conn
       |> put_flash(:error, "Ocorreu um erro inesperado")
-      |> redirect(to: Routes.post_path(conn, :show, post.id))
+      |> redirect(to: Routes.post_path(conn, :show, post_id))
+    end
+
+    %{current_user: current_user} = conn.assigns
+
+    case get_comment(comment_id, [:user, :post]) do
+      %Comment{} = comment ->
+        if comment.user.id == current_user.id do
+          delete_comment(comment)
+
+          conn
+          |> put_flash(:info, "Comentario apagado")
+          |> redirect(to: Routes.post_path(conn, :show, comment.post.id))
+        else
+          redirect_if_err.(conn, post_id)
+        end
+
+      _ ->
+        redirect_if_err.(conn, post_id)
     end
   end
 end
