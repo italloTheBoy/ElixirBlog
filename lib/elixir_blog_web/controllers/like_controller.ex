@@ -5,12 +5,13 @@ defmodule ElixirBlogWeb.LikeController do
 
   alias ElixirBlog.Timeline.Like
 
-  def create(conn, %{"post_id" => post_id, "type" => type}) do
-    %{
-      user_id: conn.assigns[:current_user].id,
-      post_id: post_id,
-      type: type
-    }
+  def create(conn, %{"post_id" => post_id} = params) do
+    %{id: user_id} = conn.assigns[:current_user]
+
+    if Map.fetch(params, :comment_id) != :error do
+      Map.pop(params, :post_id)
+    end
+    |> Map.put(:user_id, user_id)
     |> create_like()
     |> case do
       {:ok, _like} ->

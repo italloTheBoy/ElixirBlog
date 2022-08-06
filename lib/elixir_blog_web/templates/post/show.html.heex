@@ -92,8 +92,44 @@
         <hr>
         
         <nav>
-          <button>like</button>
-          <button>dislike</button>
+          <%= case @like_type do %>
+            <% :like -> %>
+              <%= button "like", 
+                to: Routes.post_like_path(@conn, :delete, @post.id), 
+                method: :delete
+              %>
+
+              <%= button "dislike", 
+                to: Routes.post_like_path(@conn, :update, @post.id), 
+                class: "btn-gray", 
+                method: :patch 
+              %>
+            
+            <% :unlike -> %>
+              <%= button "like", 
+                to: Routes.post_like_path(@conn, :create, @post.id, "like"), 
+                class: "btn-gray" 
+              %>
+
+              <%= button "dislike", 
+                to: Routes.post_like_path(@conn, :create, @post.id, "dislike"), 
+                class: "btn-gray" 
+              %>
+            
+            <% :dislike -> %>
+              <%= button "like", 
+                to: Routes.post_like_path(@conn, :update, @post.id), 
+                class: "btn-gray", 
+                method: :patch 
+              %>
+
+              <%= button "dislike", 
+                to: Routes.post_like_path(@conn, :delete, @post.id), 
+                class: "btn-red",
+                method: :delete
+              %>
+          <% end %>
+
           <%= if @conn.assigns.current_user.id == user.id do %>
             <%= button "Deletar", 
               to: Routes.post_comment_path(@conn, :delete, @post.id ,comment.id),

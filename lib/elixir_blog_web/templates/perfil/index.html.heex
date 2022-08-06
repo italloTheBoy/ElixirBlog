@@ -1,23 +1,27 @@
-<header>
-  <h1><%= @user.username %></h1>
-</header>
-
-<%= if @user == @conn.assigns.current_user do %>
-  <section>
-    <ul>
-      <li><%= link "Faça uma postagem", to: Routes.post_path(@conn, :new) %></li>
-      <li>Atualizar meus dados</li>
-      <li>Excluir essa conta</li>
-    </ul>
+<main class="box">
+  <header>
+    <h1><%= @user.username %></h1>
+  </header>
   
-    <hr>
-  </section>
-<% end %>
+  <%= if @user == @conn.assigns.current_user do %>
+    <nav>
+      <ul>
+        <li><%= link "Faça uma postagem", to: Routes.post_path(@conn, :new) %></li>
+        <li>Atualizar meus dados</li>
+        <li>Excluir essa conta</li>
+      </ul>
+    </nav>
+  <% end %>
+</main>
 
-<main>
+
+<section>
+  <header>
+    <h2>Posts:</h2>
+  </header>
+
   <%= for post <- @posts do %>
-
-    <article>
+    <article class="box">
       <strong>
         <%= link post.user.username, to: Routes.post_path(@conn, :show, post.id) %>
       </strong>
@@ -61,8 +65,6 @@
             method: :delete
           %>
       <% end %>
-
-      <hr>
     </article>
   <% end %>
-</main>
+  </section>
